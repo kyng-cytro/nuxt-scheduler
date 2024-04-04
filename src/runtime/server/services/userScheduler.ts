@@ -70,8 +70,8 @@ function run(callback: Function): Scheduler {
     everyHours: (hours: number) => {
       cron.schedule(`0 */${hours} * * *`, callback);
     },
-    hourlyAt: (minute: number) => {
-      cron.schedule(`${minute} * * * *`, callback);
+    hourlyAt: (minute: number, timezone?: string) => {
+      cron.schedule(`${minute} * * * *`, callback, timezone && {  timezone  });
     },
     everyOddHour: () => {
       cron.schedule('0 */2 * * *', callback);
