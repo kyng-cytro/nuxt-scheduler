@@ -89,7 +89,7 @@ function run(callback: Function): Scheduler {
       cron.schedule('0 */6 * * *', callback);
     },
     dailyAt: (hour: number, minute: number, timezone?: string) => {
-      timezone ? cron.schedule(`${minute} ${hour} * * *`, callback, { timezone: timezone  }) : cron.schedule(`${minute} ${hour} * * *`, callback);
+      cron.schedule(`${minute} ${hour} * * *`, callback, timezone && { timezone })
     },
     daily: () => {
       cron.schedule('0 0 * * *', callback);
@@ -107,7 +107,7 @@ function run(callback: Function): Scheduler {
       cron.schedule('0 0 1 1 *', callback);
     },
     cron: (interval: string, timezone?: string) => {
-      timezone ? cron.schedule(interval, callback, { timezone: timezone }) : cron.schedule(interval, callback);
+      cron.schedule(interval, callback, timezone && { timezone });
     }
   };
 }
