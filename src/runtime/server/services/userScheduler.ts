@@ -21,7 +21,7 @@ export interface Scheduler {
   everyFourHours: () => void;
   everySixHours: () => void;
   daily: () => void;
-  dailyAt: (hour: number, minute: number) => void;
+  dailyAt: (hour: number, minute: number, timezone?: string) => void;
   everyDays: (days: number) => void;
   weekly: () => void;
   quarterly: () => void;
@@ -88,8 +88,8 @@ function run(callback: Function): Scheduler {
     everySixHours: () => {
       cron.schedule('0 */6 * * *', callback);
     },
-    dailyAt: (hour: number, minute: number) => {
-      cron.schedule(`${minute} ${hour} * * *`, callback);
+    dailyAt: (hour: number, minute: number, timezone?: string) => {
+      timezone ? cron.schedule(`${minute} ${hour} * * *`, callback, { timezone: timezone  }) : cron.schedule(`${minute} ${hour} * * *`, callback);
     },
     daily: () => {
       cron.schedule('0 0 * * *', callback);
@@ -107,7 +107,7 @@ function run(callback: Function): Scheduler {
       cron.schedule('0 0 1 1 *', callback);
     },
     cron: (interval: string, timezone?: string) => {
-      timezone ? cron.schedule(interval, callback, { scheduled: true, timezone: timezone }) : cron.schedule(interval, callback);
+      timezone ? cron.schedule(interval, callback, { timezone: timezone }) : cron.schedule(interval, callback);
     }
   };
 }
